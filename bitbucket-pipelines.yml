@@ -15,6 +15,12 @@ pipelines:
           caches:
             - maven
           script:
+            - pipe: sonarsource/sonarcloud-scan:1.2.2
+            # variables:
+            #   SONAR_TOKEN: '<string>'  # Optional
+            #   EXTRA_ARGS: '<string>'  # Optional
+            #   SONAR_SCANNER_OPTS: '<string>'  # Optional
+            #   DEBUG: '<boolean>'  # Optional
             - mvn -B verify --file pom.xml
           after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.

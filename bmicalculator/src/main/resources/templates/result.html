@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div style="width: 50%;margin-left: 25%;margin-top: 5%">
+    <h1>BMI计算结果</h1>
+    <p th:text="'身高（厘米）: ' + ${bmi.height}"/>
+    <p th:text="'体重（公斤）: ' + ${bmi.weight}"/>
+    <p th:text="'结果: ' + ${Result}"/>
+    <a href="/yy/BMICalculatorPage">返回重新计算</a>
+</div>
+</body>

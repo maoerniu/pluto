@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>BMI计算器</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div style="width: 50%;margin-left: 25%;margin-top: 5%">
+    <h1>BMI计算器</h1>
+    <form action="#" method="post" th:action="@{/calculateBMI}" th:object="${bmi}">
+        <p>身高（厘米）: <input type="text" th:field="*{height}" /></p>
+        <p>体重（公斤）: <input type="text" th:field="*{weight}" /></p>
+        <p><input type="submit" value="计算" /></p>
+    </form>
+</div>
+</body>
+</html>

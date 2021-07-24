@@ -19,6 +19,7 @@ public class BMICalculatorController {
         //调用Service核心计算逻辑
         //2020/05/30 - Craig - BUDDHA-17 - Code Refactor for SonarQube Scanner
         //2020/06/20 - Craig - BUDDHA-22 - User management
+        //
         BMIService bmicalculator = new BMIService();
 
         dValue = bmicalculator.CalculateBMI(bmi.getHeight(),bmi.getWeight());

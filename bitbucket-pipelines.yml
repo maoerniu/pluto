@@ -54,13 +54,11 @@ definitions:
 pipelines:
     default:
         -step: *build-test
-    deplyment:
-        -step: *deploy-to-staging-environment
-        
     branches:
         master:
             - step: *build-test-sonarcloud
             - step: *build-test-securityscan
+            - step: *deploy-to-staging-environment
     pull-requests:
         '**':
             - step: *build-test-sonarcloud

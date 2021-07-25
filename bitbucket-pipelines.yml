@@ -15,7 +15,7 @@ pipelines:
           caches:
             - maven
           script:
-            - pipe: sonarsource/sonarcloud-scan:1.2.2
+            # - pipe: sonarsource/sonarcloud-scan:1.2.2
             # variables:
             #   SONAR_TOKEN: '<string>'  # Optional
             #   EXTRA_ARGS: '<string>'  # Optional

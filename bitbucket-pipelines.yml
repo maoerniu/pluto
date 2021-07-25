@@ -8,47 +8,46 @@
 image: maven:3.6.3
 
 clone:
-  depth: full    # SonarCloud scanner needs the full history to assign issues properly
+    depth: full    # SonarCloud scanner needs the full history to assign issues properly
 
 definitions:
-  caches:
-    sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
-  steps:
-    - step: &build-test-sonarcloud
-       name: Build, test and analyze on SonarCloud
-       caches:
-         - maven
-         - sonar
-       script:
-         - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
-       artifacts:
-         - target/** 
-    - step: &build-test
-       name: Build and Test
-       caches:
-         - maven
-       script:
-         - mvn -B verify --file pom.xml
-       artifacts:
-         - target/** 
-       after-script:
-         # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
-         - pipe: atlassian/checkstyle-report:0.2.0
-     - step: &build-test-securityscan
-          name: Security Scan
-          script:
-            # Run a security scan for sensitive data.
-            # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
-            - pipe: atlassian/git-secrets-scan:0.4.3
+    caches:
+        sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
+    steps:
+        - step: &build-test-sonarcloud
+            name: Build, test and analyze on SonarCloud
+        caches:
+            - maven
+            - sonar
+        script:
+            - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
+        artifacts:
+            - target/** 
+        - step: &build-test
+            name: Build and Test
+            caches:
+               - maven
+            script:
+                - mvn -B verify --file pom.xml
+            artifacts:
+                - target/** 
+            after-script:
+                # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
+                - pipe: atlassian/checkstyle-report:0.2.0
+        - step: &build-test-securityscan
+            name: Security Scan
+            script:
+                # Run a security scan for sensitive data.
+                # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+                - pipe: atlassian/git-secrets-scan:0.4.3
  pipelines:
-     default:
-         -step: *build-test
-     branches:
-         master:
-         - step: *build-test-sonarcloud
-         - step: *build-test-securityscan
-     pull-requests:
-         '**':
-             - step: *build-test-sonarcloud
-             - step: *build-test-securityscan
- 
+    default:
+        -step: *build-test
+    branches:
+        master:
+            - step: *build-test-sonarcloud
+            - step: *build-test-securityscan
+    pull-requests:
+        '**':
+            - step: *build-test-sonarcloud
+            - step: *build-test-securityscan

@@ -40,9 +40,23 @@ definitions:
                 # Run a security scan for sensitive data.
                 # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
                 - pipe: atlassian/git-secrets-scan:0.4.3
+        - step: &deploy-to-staging-environment
+            name: 'Deployment to Staging'
+            deployment: staging
+            script:
+                - echo "Your deployment to staging script goes here..."
+        - step: &deploy-to-production-environment
+            name: 'Deployment to Production'
+            deployment: production
+            trigger: 'manual'
+            script:
+                - echo "Your deployment to production script goes here..."
 pipelines:
     default:
         -step: *build-test
+    deplyment:
+        -step: *deploy-to-staging-environment
+        
     branches:
         master:
             - step: *build-test-sonarcloud

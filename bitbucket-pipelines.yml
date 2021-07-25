@@ -23,7 +23,7 @@ definitions:
          - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
        artifacts:
          - target/** 
-    - step:
+    - step: &build-test
        name: Build and Test
        caches:
          - maven
@@ -34,9 +34,21 @@ definitions:
        after-script:
          # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
          - pipe: atlassian/checkstyle-report:0.2.0
-      - step:
+     - step: &build-test-securityscan
           name: Security Scan
           script:
             # Run a security scan for sensitive data.
             # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
             - pipe: atlassian/git-secrets-scan:0.4.3
+ pipelines:
+     default:
+         -step: *build-test
+     branches:
+         master:
+         - step: *build-test-sonarcloud
+         - step: *build-test-securityscan
+     pull-requests:
+         '**':
+             - step: *build-test-sonarcloud
+             - step: *build-test-securityscan
+ 

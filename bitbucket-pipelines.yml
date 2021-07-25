@@ -13,28 +13,27 @@ clone:
 definitions:
   caches:
     sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
-    
-pipelines:
-  default:
-    - parallel:
-      - step:
-          name: Build and Test
-          caches:
-            - maven
-            - sonar
-          script:
-            # - pipe: sonarsource/sonarcloud-scan:1.2.2
-            # variables:
-            #   SONAR_TOKEN: '<string>'  # Optional
-            #   EXTRA_ARGS: '<string>'  # Optional
-            #   SONAR_SCANNER_OPTS: '<string>'  # Optional
-            #   DEBUG: '<boolean>'  # Optional
-            - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
-          artifacts:
-            - target/**
-          after-script:
-              # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
-            - pipe: atlassian/checkstyle-report:0.2.0
+  steps:
+    - step: &build-test-sonarcloud
+       name: Build, test and analyze on SonarCloud
+       caches:
+         - maven
+         - sonar
+       script:
+         - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
+       artifacts:
+         - target/** 
+    - step:
+       name: Build and Test
+       caches:
+         - maven
+       script:
+         - mvn -B verify --file pom.xml
+       artifacts:
+         - target/** 
+       after-script:
+         # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
+         - pipe: atlassian/checkstyle-report:0.2.0
       - step:
           name: Security Scan
           script:

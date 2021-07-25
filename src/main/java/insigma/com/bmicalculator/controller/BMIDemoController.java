@@ -20,6 +20,7 @@ public class BMIDemoController {
         BMIService bmiCalculator = new BMIService();
         dBMIValue = bmiCalculator.CalculateBMI(dHeight,dWeight);
         //2020/05/30 - Craig - BUDDHA-17 - Code Refactor for SonarQube Scanner （\r\n -> %n）
+        //2021/07/25 - Craig Young - AMD-6 - 测试Open DevOps功能
         return String.format("您的身高是: %.1f 厘米 %n您的体重是： %.1f 公斤 %n您的身体质量指数（Body Mass Index）为：%.1f" , dHeight, dWeight, dBMIValue);
     }
 

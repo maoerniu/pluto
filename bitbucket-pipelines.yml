@@ -16,13 +16,13 @@ definitions:
     steps:
         - step: &build-test-sonarcloud
             name: Build, test and analyze on SonarCloud
-        caches:
-            - maven
-            - sonar
-        script:
-            - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
-        artifacts:
-            - target/** 
+            caches:
+                - maven
+                - sonar
+            script:
+                - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
+            artifacts:
+                - target/** 
         - step: &build-test
             name: Build and Test
             caches:

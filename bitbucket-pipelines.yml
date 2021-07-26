@@ -1,4 +1,4 @@
-#  Template maven-build
+#  maven-build
 
 #  This template allows you to test and build your Java project with Maven.
 #  The workflow allows running tests, code checkstyle and security scans on the default branch.
@@ -14,15 +14,6 @@ definitions:
     caches:
         sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
     steps:
-        - step: &build-test-sonarcloud
-            name: Build, test and analyze on SonarCloud
-            caches:
-                - maven
-                - sonar
-            script:
-                - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
-            artifacts:
-                - target/** 
         - step: &build-test
             name: Build and Test
             caches:
@@ -34,6 +25,15 @@ definitions:
             after-script:
                 # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
                 - pipe: atlassian/checkstyle-report:0.2.0
+        - step: &build-test-sonarcloud
+            name: Build, Test & Analyze on SonarCloud
+            caches:
+                - maven
+                - sonar
+            script:
+                - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
+            artifacts:
+                - target/** 
         - step: &build-test-securityscan
             name: Security Scan
             script:
@@ -41,23 +41,19 @@ definitions:
                 # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
                 - pipe: atlassian/git-secrets-scan:0.4.3
         - step: &deploy-to-staging-environment
-            name: 'Deployment to Staging'
+            name: 'Deployment to Staging Environment on Alibaba Cloud'
             deployment: staging
             script:
-                - echo "Your deployment to staging script goes here..."
                 - pipe: atlassian/scp-deploy:0.3.3
                   variables:
                         USER: $USER
                         SERVER: $SERVER
                         REMOTE_PATH: '/home/dxy/yyzone/'
                         LOCAL_PATH: 'target/*'
-        - step: &server-start
-            caches:
-              - node
-            script:
-              - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
+                # Restart the Service on Alibaba Cloud...'
+                - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
         - step: &deploy-to-production-environment
-            name: 'Deployment to Production'
+            name: 'Deployment to Production Environment'
             deployment: production
             trigger: 'manual'
             script:
@@ -70,7 +66,7 @@ pipelines:
             - step: *build-test-sonarcloud
             - step: *build-test-securityscan
             - step: *deploy-to-staging-environment
-            - step: *server-start
+            - step: *deploy-to-production-environment
     pull-requests:
         '**':
             - step: *build-test-sonarcloud

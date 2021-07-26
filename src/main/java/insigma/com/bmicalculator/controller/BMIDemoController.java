@@ -21,7 +21,8 @@ public class BMIDemoController {
         dBMIValue = bmiCalculator.CalculateBMI(dHeight,dWeight);
         //2020/05/30 - Craig - BUDDHA-17 - Code Refactor for SonarQube Scanner （\r\n -> %n）
         //2021/07/25 - Craig Young - AMD-6 - 测试Open DevOps
-        return String.format("您的身高是: %.1f 厘米 %n您的体重是： %.1f 公斤 %n您的身体质量指数（Body Mass Index）为：%.1f" , dHeight, dWeight, dBMIValue);
+        //2021/07/26 - Craig - AMD-7-Support-Participating-Insurance-Product
+        return String.format("你的身高是: %.1f 厘米 %n你的体重是： %.1f 公斤 %n你的身体质量指数（Body Mass Index）为：%.1f" , dHeight, dWeight, dBMIValue);
     }
 
     //http://localhost:8011/calcBMIV2?Height=180&Weight=90

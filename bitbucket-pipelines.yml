@@ -46,13 +46,12 @@ definitions:
             script:
                 - echo "Your deployment to staging script goes here..."
                 - pipe: atlassian/scp-deploy:0.3.3
-                    variables:
-                    USER: $USER
-                    SERVER: $SERVER
-                    REMOTE_PATH: '/home/dxy/yyzone/'
-                    LOCAL_PATH: 'target/*'
-        server-start:
-        - step:
+                  variables:
+                        USER: $USER
+                        SERVER: $SERVER
+                        REMOTE_PATH: '/home/dxy/yyzone/'
+                        LOCAL_PATH: 'target/*'
+        - step: &server-start
             caches:
               - node
             script:

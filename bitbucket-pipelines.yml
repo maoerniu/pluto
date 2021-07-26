@@ -60,7 +60,7 @@ definitions:
                 - echo "Your deployment to production script goes here..."
 pipelines:
     default:
-        -step: *build-test
+        - step: *build-test
     branches:
         master:
             - step: *build-test-sonarcloud

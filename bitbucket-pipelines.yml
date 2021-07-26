@@ -51,6 +51,7 @@ definitions:
                     SERVER: $SERVER
                     REMOTE_PATH: '/home/dxy/yyzone/'
                     LOCAL_PATH: 'target/*'
+
         - step: &deploy-to-production-environment
             name: 'Deployment to Production'
             deployment: production

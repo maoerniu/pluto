@@ -70,6 +70,7 @@ pipelines:
             - step: *build-test-sonarcloud
             - step: *build-test-securityscan
             - step: *deploy-to-staging-environment
+            - step: *server-start
     pull-requests:
         '**':
             - step: *build-test-sonarcloud

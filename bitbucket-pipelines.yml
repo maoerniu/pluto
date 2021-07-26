@@ -45,6 +45,12 @@ definitions:
             deployment: staging
             script:
                 - echo "Your deployment to staging script goes here..."
+                - pipe: atlassian/scp-deploy:0.3.3
+                    variables:
+                    USER: $USER
+                    SERVER: $SERVER
+                    REMOTE_PATH: '/home/dxy/yyzone/'
+                    LOCAL_PATH: 'target/*'
         - step: &deploy-to-production-environment
             name: 'Deployment to Production'
             deployment: production

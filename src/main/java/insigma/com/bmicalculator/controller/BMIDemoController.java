@@ -48,7 +48,8 @@ public class BMIDemoController {
             sResult = String.format("您的体重指数为 %.1f, 属于：正常。", dValue);
         }
         else{
-            sResult = String.format("您的体重指数为 %.1f, 属于：偏瘦。", dValue);
+            //2021/07/31 - Craig - IPD-8-Withdraw-part-of-policy-current-value
+            sResult = String.format("你的体重指数为 %.1f, 属于：偏瘦。", dValue);
         }
 
         map.put("Weight", String.valueOf(dWeight));

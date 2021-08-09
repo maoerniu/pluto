@@ -29,8 +29,9 @@ public class BmiParamTests {
     public void testNullValue() {
         BMIParam bmiParam = new BMIParam();
 
-        Assert.assertNotNull(bmiParam.getHeight());
-        Assert.assertNotNull(bmiParam.getWeight());
+        // 2021/08/09 - Craig - IPD-16- Redundant null-check: a value of primitive type 'double' is never null
+        // Assert.assertNotNull(bmiParam.getHeight());
+        // Assert.assertNotNull(bmiParam.getWeight());
 
         Assert.assertEquals(0,bmiParam.getHeight(),0);
         Assert.assertEquals(0,bmiParam.getWeight(),0);

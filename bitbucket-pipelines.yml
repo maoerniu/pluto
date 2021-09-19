@@ -41,8 +41,14 @@ definitions:
                 # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
                 - pipe: atlassian/git-secrets-scan:0.4.3
         - step: &deploy-to-staging-environment
-            name: 'Deployment to Staging Environment on Alibaba Cloud'
+            name: 'Deployment to Staging Environment'
             deployment: staging
+            trigger: 'manual'
+            script:
+                - echo "Your deployment to production script goes here..."
+        - step: &deploy-to-production-environment
+            name: 'Deployment to Production Environment on Alibaba Cloud'
+            deployment: production
             script:
                 - pipe: atlassian/scp-deploy:0.3.3
                   variables:
@@ -52,12 +58,6 @@ definitions:
                         LOCAL_PATH: 'target/*'
                 # Restart the Service on Alibaba Cloud...'
                 - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
-        - step: &deploy-to-production-environment
-            name: 'Deployment to Production Environment'
-            deployment: production
-            trigger: 'manual'
-            script:
-                - echo "Your deployment to production script goes here..."
 pipelines:
     default:
         - step: *build-test

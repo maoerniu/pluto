@@ -58,6 +58,13 @@ definitions:
                         LOCAL_PATH: 'target/*'
                 # Restart the Service on Alibaba Cloud...'
                 - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
+            after-script:
+              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
+              - pipe: atlassian/opsgenie-send-alert:0.5.3
+                variables:
+                  GENIE_KEY: $OPSGENIE_KEY
+                  MESSAGE: '部署到阿里云生产环境失败'
+                  PRIORITY: 'P1'
 pipelines:
     default:
         - step: *build-test

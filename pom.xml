@@ -28,7 +28,7 @@
       <!-- Maven plugin versions -->
       <maven-failsafe-plugin.version>3.0.0-M4</maven-failsafe-plugin.version>
       <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-      <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+      <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
 
 
       <!-- Sonar -->
@@ -134,7 +134,7 @@
             <!-- 使用JaCoCo做Java代码覆盖率分析，并产生相关的代码覆盖率报告（用于SonarCloud) -->
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.4</version>
+            <version>0.8.7</version>
             <configuration>
                <append>true</append>
             </configuration>

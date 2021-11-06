@@ -76,7 +76,7 @@ definitions:
                 - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
 pipelines:
     default:
-        - step: *build-test-checkstyle
+        # - step: *build-test-checkstyle
         - step: *build-test-sonarcloud
         - step: *build-test-securityscan
     branches:

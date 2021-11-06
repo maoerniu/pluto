@@ -36,7 +36,7 @@ definitions:
                 - target/** 
             after-script:
               - echo $BITBUCKET_EXIT_CODE
-              # - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
+              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
               - pipe: atlassian/opsgenie-send-alert:0.5.3
                 variables:
                   GENIE_KEY: $OPSGENIE_KEY

@@ -23,8 +23,11 @@ definitions:
             artifacts:
                 - target/** 
             after-script:
-                # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
-                - pipe: atlassian/checkstyle-report:0.2.0
+              # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
+              - pipe: atlassian/checkstyle-report:0.3.0
+                variables:
+                   REPORT_FAIL_SEVERITY: 'error'
+                   CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
         - step: &build-test-sonarcloud
             name: Build, Test & Analyze on SonarCloud
             caches:

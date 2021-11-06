@@ -30,7 +30,7 @@ definitions:
                    CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
                    REPORT_FAIL_SEVERITY: 'info'
                    CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
-                   DEBUG: 'true' # please document this flag
+                   #DEBUG: 'true' # please document this flag
               #当Check Code Style任务失败时，向OpsGenie发送告警通知
               - echo $BITBUCKET_EXIT_CODE
               - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi

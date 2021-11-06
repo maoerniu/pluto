@@ -19,8 +19,8 @@ definitions:
             caches:
                - maven
             script:
-                #- mvn -B verify --file pom.xml
-                - mvn install
+                - mvn -B verify --file pom.xml #对集成测试结果进行任何检查，以确保符合质量标准
+                #- mvn install #将软件包安装到本地存储库中，作为本地其他项目的依赖项
             artifacts:
                 - target/** 
             after-script:

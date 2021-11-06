@@ -34,6 +34,14 @@ definitions:
                 - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
             artifacts:
                 - target/** 
+            after-script:
+              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
+              - pipe: atlassian/opsgenie-send-alert:0.5.3
+                variables:
+                  GENIE_KEY: $OPSGENIE_KEY
+                  MESSAGE: '单元测试或静态代码扫描失败'
+                  PRIORITY: 'P1'
+                  SOURCE: 'Bitbucket Pipelines'
         - step: &build-test-securityscan
             name: Security Scan
             script:
@@ -58,13 +66,6 @@ definitions:
                         LOCAL_PATH: 'target/*'
                 # Restart the Service on Alibaba Cloud...'
                 - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
-            after-script:
-              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
-              - pipe: atlassian/opsgenie-send-alert:0.5.3
-                variables:
-                  GENIE_KEY: $OPSGENIE_KEY
-                  MESSAGE: '部署到阿里云生产环境失败'
-                  PRIORITY: 'P1'
 pipelines:
     default:
         - step: *build-test
@@ -73,7 +74,7 @@ pipelines:
             - step: *build-test-sonarcloud
             - step: *build-test-securityscan
             - step: *deploy-to-staging-environment
-            - step: *deploy-to-production-environment
+            # - step: *deploy-to-production-environment
     pull-requests:
         '**':
             - step: *build-test-sonarcloud

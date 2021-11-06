@@ -81,6 +81,7 @@ pipelines:
         - step: *build-test-securityscan
     branches:
         master:
+            - step: *build-test-checkstyle
             - step: *build-test-sonarcloud
             - step: *build-test-securityscan
             - step: *deploy-to-staging-environment

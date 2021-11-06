@@ -20,8 +20,8 @@ definitions:
                - maven
             script:
                 # -DskipTests不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下
-                - mvn -B -DskipTests verify --file pom.xml #运行检查，以确保符合质量标准
-                #- mvn install #将软件包安装到本地存储库中，作为本地其他项目的依赖项
+                #- mvn -B verify --file pom.xml #运行检查，以确保符合质量标准
+                - mvn clean install -DskipTests #将软件包安装到本地存储库中，作为本地其他项目的依赖项
             artifacts:
                 - target/** 
             after-script:

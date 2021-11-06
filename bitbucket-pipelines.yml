@@ -19,8 +19,8 @@ definitions:
             caches:
                - maven
             script:
-                # - mvn -B verify --file pom.xml
-                - mvn install
+                - mvn -B verify --file pom.xml
+                #- mvn install
             artifacts:
                 - target/** 
                 - target/surefire-reports
@@ -32,7 +32,7 @@ definitions:
               #      REPORT_FAIL_SEVERITY: 'info'
               #      CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
               - echo $BITBUCKET_EXIT_CODE
-              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
+              - if [ $BITBUCKET_EXIT_CODE -eq 1 ]; then exit $BITBUCKET_EXIT_CODE; fi
               - pipe: atlassian/opsgenie-send-alert:0.5.3
                 variables:
                   GENIE_KEY: $OPSGENIE_KEY

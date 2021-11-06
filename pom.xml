@@ -71,6 +71,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.16</version>
 				<executions>
@@ -93,6 +94,7 @@
 					<skip>false</skip>
 					<failsOnError>false</failsOnError>
 					<consoleOutput>true</consoleOutput>
+					<linkXRef>false</linkXRef>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -133,7 +135,7 @@
                 <version>2.22.1</version>
                 <configuration>
 					<!-- 跳过测试 -->
-                    <skipTests>true</skipTests>
+                    <skipTests>false</skipTests>
                 </configuration>
             </plugin>
 			<plugin>

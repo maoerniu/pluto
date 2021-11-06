@@ -19,8 +19,8 @@ definitions:
             caches:
                - maven
             script:
-                - mvn -B verify --file pom.xml
-                #- mvn install
+                #- mvn -B verify --file pom.xml
+                - mvn -X install
             artifacts:
                 - target/** 
                 - target/surefire-reports

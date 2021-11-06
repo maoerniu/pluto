@@ -23,7 +23,7 @@ public class BmicalculatorApplicationTests {
 		dResult = bmiService.CalculateBMI(155.0,52.0);
 
 		//2020/06/20 - Craig - BUDDHA-22 - Failed Test Case
-		//2021/11/06 - Craig - IPD-13 - 设置失败的单测用例，用于测试自动通知到OpsGenie
+		//2021/11/06 - Craig - IPD-13 - 设置失败的单测用例，用于测试自动通知到OpsGenie.
 		Assert.assertEquals("21.6", df.format(dResult));
 		//Assert.assertEquals("25", df.format(dResult));
 	}

@@ -19,14 +19,14 @@ definitions:
             caches:
                - maven
             script:
-                #- mvn -B verify --file pom.xml
-                - mvn install
+                - mvn -B verify --file pom.xml
+                #- mvn install
             artifacts:
                 - target/** 
                 - target/surefire-reports
             after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
-              - pipe: atlassian/checkstyle-report:0.3.0
+              - pipe: atlassian/checkstyle-report:0.2.1
                 variables:
                    CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
                    REPORT_FAIL_SEVERITY: 'info'

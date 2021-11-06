@@ -19,8 +19,9 @@ definitions:
             caches:
                - maven
             script:
-                #- mvn -B verify --file pom.xml
-                - mvn install
+                # -DskipTests不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下
+                #- mvn -B verify --file pom.xml #运行检查，以确保符合质量标准
+                - mvn clean install -Dmaven.test.skip=true #将软件包安装到本地存储库中，作为本地其他项目的依赖项
             artifacts:
                 - target/** 
             after-script:
@@ -30,7 +31,7 @@ definitions:
                    CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
                    REPORT_FAIL_SEVERITY: 'info'
                    CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
-                   DEBUG: 'true' # please document this flag
+                   #DEBUG: 'true' # please document this flag
               #当Check Code Style任务失败时，向OpsGenie发送告警通知
               - echo $BITBUCKET_EXIT_CODE
               - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi

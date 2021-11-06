@@ -27,7 +27,7 @@ definitions:
               - pipe: atlassian/checkstyle-report:0.3.0
                 variables:
                    CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
-                   REPORT_FAIL_SEVERITY: 'error'
+                   REPORT_FAIL_SEVERITY: 'info' # info/warn/error
                    CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
         - step: &build-test-sonarcloud
             name: Build, Test & Analyze on SonarCloud

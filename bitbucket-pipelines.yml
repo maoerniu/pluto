@@ -35,9 +35,11 @@ definitions:
                 - maven
                 - sonar
             script:
-                - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --file pom.xml
+                - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.java.coveragePlugin=jacoco --file pom.xml
             artifacts:
                 - target/** 
+                - "**/target/site/jacoco/jacoco.xml"
+                - "**/target/**/*.class"
             after-script:
               - echo $BITBUCKET_EXIT_CODE
               - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi

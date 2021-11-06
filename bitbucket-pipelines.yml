@@ -21,16 +21,24 @@ definitions:
             script:
                 # - mvn -B verify --file pom.xml
                 - mvn install
-            # artifacts:
-                # - target/** 
+            artifacts:
+                - target/** 
             after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
               - pipe: atlassian/checkstyle-report:0.3.0
-                # variables:
-                #    CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
-                #    REPORT_FAIL_SEVERITY: 'info' # info/warn/error
-                #    CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
-                #    DEBUG: 'true'
+                variables:
+                   CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
+                   REPORT_FAIL_SEVERITY: 'info'
+                  CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
+              - echo $BITBUCKET_EXIT_CODE
+              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
+              - pipe: atlassian/opsgenie-send-alert:0.5.3
+                variables:
+                  GENIE_KEY: $OPSGENIE_KEY
+                  MESSAGE: '编码规范检查失败'
+                  PRIORITY: 'P3'
+                  SOURCE: 'Bitbucket Pipelines'
+              - echo $BITBUCKET_EXIT_CODE
         - step: &build-test-sonarcloud
             name: Build, Test & Analyze on SonarCloud
             caches:

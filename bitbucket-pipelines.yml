@@ -26,11 +26,11 @@ definitions:
             after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
               - pipe: atlassian/checkstyle-report:0.3.0
-                variables:
-                   CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
-                   REPORT_FAIL_SEVERITY: 'info' # info/warn/error
-                   CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
-                   DEBUG: 'true'
+                # variables:
+                #    CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
+                #    REPORT_FAIL_SEVERITY: 'info' # info/warn/error
+                #    CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
+                #    DEBUG: 'true'
         - step: &build-test-sonarcloud
             name: Build, Test & Analyze on SonarCloud
             caches:
@@ -83,6 +83,7 @@ pipelines:
         # - step: *build-test-securityscan
     branches:
         master:
+            - step: *build-test-securityscan
             - step: *build-test-checkstyle
             # - step: *build-test-sonarcloud
             # - step: *build-test-securityscan

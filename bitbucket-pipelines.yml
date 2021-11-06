@@ -19,7 +19,8 @@ definitions:
             caches:
                - maven
             script:
-                - mvn -B verify --file pom.xml #对集成测试结果进行任何检查，以确保符合质量标准
+                # -DskipTests不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下
+                - mvn -B -DskipTests verify --file pom.xml #运行检查，以确保符合质量标准
                 #- mvn install #将软件包安装到本地存储库中，作为本地其他项目的依赖项
             artifacts:
                 - target/** 

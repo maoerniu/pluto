@@ -19,9 +19,10 @@ definitions:
             caches:
                - maven
             script:
-                - mvn -B verify --file pom.xml
-            artifacts:
-                - target/** 
+                # - mvn -B verify --file pom.xml
+                - mvn install
+            # artifacts:
+                # - target/** 
             after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
               - pipe: atlassian/checkstyle-report:0.3.0
@@ -29,6 +30,7 @@ definitions:
                    CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
                    REPORT_FAIL_SEVERITY: 'info' # info/warn/error
                    CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
+                   DEBUG: 'true'
         - step: &build-test-sonarcloud
             name: Build, Test & Analyze on SonarCloud
             caches:
@@ -77,16 +79,16 @@ definitions:
 pipelines:
     default:
         # - step: *build-test-checkstyle
-        - step: *build-test-sonarcloud
-        - step: *build-test-securityscan
+        # - step: *build-test-sonarcloud
+        # - step: *build-test-securityscan
     branches:
         master:
             - step: *build-test-checkstyle
-            - step: *build-test-sonarcloud
-            - step: *build-test-securityscan
-            - step: *deploy-to-staging-environment
+            # - step: *build-test-sonarcloud
+            # - step: *build-test-securityscan
+            # - step: *deploy-to-staging-environment
             # - step: *deploy-to-production-environment
     pull-requests:
         '**':
-            - step: *build-test-sonarcloud
-            - step: *build-test-securityscan
+            # - step: *build-test-sonarcloud
+            # - step: *build-test-securityscan

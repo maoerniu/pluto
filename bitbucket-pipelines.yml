@@ -35,13 +35,15 @@ definitions:
             artifacts:
                 - target/** 
             after-script:
-              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
+              - echo $BITBUCKET_EXIT_CODE
+              # - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
               - pipe: atlassian/opsgenie-send-alert:0.5.3
                 variables:
                   GENIE_KEY: $OPSGENIE_KEY
                   MESSAGE: '单元测试或静态代码扫描失败'
                   PRIORITY: 'P1'
                   SOURCE: 'Bitbucket Pipelines'
+              - echo $BITBUCKET_EXIT_CODE
         - step: &build-test-securityscan
             name: Security Scan
             script:

@@ -25,11 +25,11 @@ definitions:
                 - target/** 
             after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
-              - pipe: atlassian/checkstyle-report:0.3.0
-                variables:
-                   CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
-                   REPORT_FAIL_SEVERITY: 'info'
-                   CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
+              # - pipe: atlassian/checkstyle-report:0.3.0
+              #   variables:
+              #      CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
+              #      REPORT_FAIL_SEVERITY: 'info'
+              #      CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
               - echo $BITBUCKET_EXIT_CODE
               - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
               - pipe: atlassian/opsgenie-send-alert:0.5.3
@@ -91,8 +91,8 @@ pipelines:
         # - step: *build-test-securityscan
     branches:
         master:
-            - step: *build-test-securityscan
             - step: *build-test-checkstyle
+            - step: *build-test-securityscan
             # - step: *build-test-sonarcloud
             # - step: *build-test-securityscan
             # - step: *deploy-to-staging-environment

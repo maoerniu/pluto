@@ -14,8 +14,8 @@ definitions:
     caches:
         sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
     steps:
-        - step: &build-test
-            name: Build and Test
+        - step: &build-test-checkstyle
+            name: Check Code Style
             caches:
                - maven
             script:
@@ -70,13 +70,15 @@ definitions:
                 - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
 pipelines:
     default:
-        - step: *build-test
+        - step: *build-test-checkstyle
+        - step: *build-test-sonarcloud
+        - step: *build-test-securityscan
     branches:
         master:
             - step: *build-test-sonarcloud
             - step: *build-test-securityscan
             - step: *deploy-to-staging-environment
-            # - step: *deploy-to-production-environment
+            #- step: *deploy-to-production-environment
     pull-requests:
         '**':
             - step: *build-test-sonarcloud

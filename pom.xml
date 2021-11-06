@@ -114,42 +114,10 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.3</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<createDependencyReducedPom>false</createDependencyReducedPom>
-							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.atlassian.bitbucket.pipelines.checkstyle.report.Main</mainClass>
-								</transformer>
-							</transformers>
-							<finalName>checkstyle-report-pipe-shaded</finalName>
-							<shadedArtifactAttached>true</shadedArtifactAttached>
-							<filters>
-								<filter>
-									<artifact>*:*</artifact>
-									<excludes>
-										<exclude>META-INF/*.SF</exclude>
-										<exclude>META-INF/*.DSA</exclude>
-										<exclude>META-INF/*.RSA</exclude>
-									</excludes>
-								</filter>
-							</filters>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<!-- 单元测试Maven插件 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
+                <version>2.22.2</version>
                 <configuration>
 					<!-- 跳过测试 -->
                     <skipTests>false</skipTests>
@@ -159,7 +127,7 @@
 				<!-- 使用JaCoCo做Java代码覆盖率分析，并产生相关的代码覆盖率报告（用于SonarCloud) -->
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.8</version>
+				<version>0.8.4</version>
 				<configuration>
 					<append>true</append>
 				</configuration>

@@ -88,17 +88,15 @@ definitions:
                 - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
 pipelines:
     default:
-        # - step: *build-test-checkstyle
-        # - step: *build-test-sonarcloud
-        # - step: *build-test-securityscan
+         - step: *build-test-checkstyle
+         - step: *build-test-securityscan
     branches:
         master:
-            #- step: *build-test-checkstyle
-            #- step: *build-test-securityscan
             - step: *build-test-sonarcloud
-            # - step: *deploy-to-staging-environment
-            # - step: *deploy-to-production-environment
+            - step: *build-test-securityscan
+            - step: *deploy-to-staging-environment
+            - step: *deploy-to-production-environment
     pull-requests:
         '**':
-            # - step: *build-test-sonarcloud
-            # - step: *build-test-securityscan
+            - step: *build-test-sonarcloud
+            - step: *build-test-securityscan

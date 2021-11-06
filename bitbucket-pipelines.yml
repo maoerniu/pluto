@@ -19,18 +19,18 @@ definitions:
             caches:
                - maven
             script:
-                - mvn -B verify --file pom.xml
-                #- mvn install
+                #- mvn -B verify --file pom.xml
+                - mvn install
             artifacts:
                 - target/** 
-                - target/surefire-reports
             after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
-              - pipe: atlassian/checkstyle-report:0.2.1
+              - pipe: atlassian/checkstyle-report:0.3.0
                 variables:
                    CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
                    REPORT_FAIL_SEVERITY: 'info'
                    CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
+                   DEBUG: 'true' # please document this flag
               #当Check Code Style任务失败时，向OpsGenie发送告警通知
               - echo $BITBUCKET_EXIT_CODE
               - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
@@ -49,6 +49,7 @@ definitions:
                 - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.java.coveragePlugin=jacoco --file pom.xml
             artifacts:
                 - target/** 
+                - target/surefire-reports
                 - "**/target/site/jacoco/jacoco.xml"
                 - "**/target/**/*.class"
             after-script:

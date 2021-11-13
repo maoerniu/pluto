@@ -24,6 +24,7 @@ public class BmicalculatorApplicationTests {
 
 		//2020/06/20 - Craig - BUDDHA-22 - Failed Test Case
 		//2021/11/06 - Craig - IPD-13 - 设置失败的单测用例，用于测试自动通知到OpsGenie
+		//2021/11/13 - Craig - IPD-21 - Connect Github repository to Jira Software Code source
 		Assert.assertEquals("21.6", df.format(dResult));
 		//Assert.assertEquals("21.5", df.format(dResult));
 	}

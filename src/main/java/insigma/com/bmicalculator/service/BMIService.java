@@ -10,7 +10,7 @@ public class BMIService {
     public double CalculateBMI(double dHeight, double dWeight){
         double dResult;
 
-        //这是业务代码，test comment on 2021/02/10
+        //这是业务代码，test comment on 2021/02/20
         if(dHeight != 0.0){
             dResult =dWeight /((dHeight/100)*(dHeight/100));
         }

@@ -61,7 +61,7 @@ jobs:
   deploy:
     # The type of runner that the job will run on
     name: 持续部署
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-16.04  
     environment: production
     
     steps:

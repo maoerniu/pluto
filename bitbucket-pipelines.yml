@@ -1,103 +1,24 @@
-#  maven-build
+name: BMI Pipeline with Maven
 
-#  This template allows you to test and build your Java project with Maven.
-#  The workflow allows running tests, code checkstyle and security scans on the default branch.
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 
-# Prerequisites: pom.xml and appropriate project structure should exist in the repository.
+jobs:
+  build:
 
-image: maven:3.6.3
+    runs-on: ubuntu-latest
 
-clone:
-    depth: full    # SonarCloud scanner needs the full history to assign issues properly
-
-definitions:
-    caches:
-        sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
     steps:
-        - step: &build-test-checkstyle
-            name: Check Code Style
-            caches:
-               - maven
-            script:
-                # -DskipTests不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下
-                #- mvn -B verify --file pom.xml #运行检查，以确保符合质量标准
-                - mvn clean install -Dmaven.test.skip=true #将软件包安装到本地存储库中，作为本地其他项目的依赖项
-            artifacts:
-                - target/** 
-            after-script:
-              # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
-              - pipe: atlassian/checkstyle-report:0.3.0
-                variables:
-                   CHECKSTYLE_RESULT_PATTERN: '.*/checkstyle.xml$'
-                   REPORT_FAIL_SEVERITY: 'info'
-                   CHECKSTYLE_REPORT_TITLE: 'my-codestyle-report'
-                   #DEBUG: 'true' # please document this flag
-              #当Check Code Style任务失败时，向OpsGenie发送告警通知
-              - echo $BITBUCKET_EXIT_CODE
-              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
-              - pipe: atlassian/opsgenie-send-alert:0.5.3
-                variables:
-                  GENIE_KEY: $OPSGENIE_KEY
-                  MESSAGE: '编码规范检查失败，请修改后继续提交！'
-                  PRIORITY: 'P3'
-                  SOURCE: 'Bitbucket Pipelines'
-        - step: &build-test-sonarcloud
-            name: Build, Test & Analyze on SonarCloud
-            caches:
-                - maven
-                - sonar
-            script:
-                - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.java.coveragePlugin=jacoco --file pom.xml
-            artifacts:
-                - target/** 
-                - target/surefire-reports
-                - "**/target/site/jacoco/jacoco.xml"
-                - "**/target/**/*.class"
-            after-script:
-              - echo $BITBUCKET_EXIT_CODE
-              - if [ $BITBUCKET_EXIT_CODE -eq 0 ]; then exit $BITBUCKET_EXIT_CODE; fi
-              - pipe: atlassian/opsgenie-send-alert:0.5.3
-                variables:
-                  GENIE_KEY: $OPSGENIE_KEY
-                  MESSAGE: '单元测试或静态代码扫描失败'
-                  PRIORITY: 'P1'
-                  SOURCE: 'Bitbucket Pipelines'
-              - echo $BITBUCKET_EXIT_CODE
-        - step: &build-test-securityscan
-            name: Security Scan
-            script:
-                # Run a security scan for sensitive data.
-                # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
-                - pipe: atlassian/git-secrets-scan:0.4.3
-        - step: &deploy-to-staging-environment
-            name: 'Deployment to Staging Environment'
-            deployment: staging
-            trigger: 'manual'
-            script:
-                - echo "Your deployment to production script goes here..."
-        - step: &deploy-to-production-environment
-            name: 'Deployment to Production Environment on Alibaba Cloud'
-            deployment: production
-            script:
-                - pipe: atlassian/scp-deploy:0.3.3
-                  variables:
-                        USER: $USER
-                        SERVER: $SERVER
-                        REMOTE_PATH: '/home/dxy/yyzone/'
-                        LOCAL_PATH: 'target/*'
-                # Restart the Service on Alibaba Cloud...'
-                - ssh $USER@$SERVER "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
-pipelines:
-    default:
-         - step: *build-test-checkstyle
-         - step: *build-test-securityscan
-    branches:
-        master:
-            - step: *build-test-sonarcloud
-            - step: *build-test-securityscan
-            - step: *deploy-to-staging-environment
-            - step: *deploy-to-production-environment
-    pull-requests:
-        '**':
-            - step: *build-test-sonarcloud
-            - step: *build-test-securityscan
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+		

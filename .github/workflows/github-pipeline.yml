@@ -60,7 +60,8 @@ jobs:
      
       - name: 'Deployment to Production Environment on Alibaba Cloud'
         # You may pin to the exact commit or the version.
-        uses: marcodallasanta/ssh-scp-deploy@v1.1.0
+        # uses: marcodallasanta/ssh-scp-deploy@v1.1.0
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
         with:
           # Local file path
           local: './build/'
@@ -74,6 +75,6 @@ jobs:
           password: ${{ secrets.ALIYUN_PASSWORD }}
           # Command to run via ssh after scp upload
           post_upload: echo "This will be executed after the upload!"
-          # - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_PASSWORD }} "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
+          last_ssh: ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_PASSWORD }} "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
           # ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts # A set of ssh_option separated by -o - REQUIRED false - DEFAULT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
-          scp_options: -v                                              # Flags to use during scp - REQUIRED false - DEFAULT ''
+          # scp_options: -v                                              # Flags to use during scp - REQUIRED false - DEFAULT ''

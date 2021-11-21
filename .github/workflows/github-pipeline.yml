@@ -63,9 +63,9 @@ jobs:
         uses: marcodallasanta/ssh-scp-deploy@v1.1.0
         with:
           # Local file path
-          # local: './build/'
+          # local: './'
           # Remote file path
-          remote: '/home/dxy/yyzone/'
+          remote: '~/yyzone/'
           # Remote server address
           host: ${{ secrets.ALIYUN_HOST }}
           # Remote server user

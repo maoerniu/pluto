@@ -38,6 +38,10 @@
       <sonar.language>java</sonar.language>
       <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
       <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+      
+      <!-- GitHub Sonar配置 - 2021/11/21 - Craig-->
+      <sonar.organization>hangzhouace</sonar.organization>
+      <sonar.host.url>https://sonarcloud.io</sonar.host.url>
    </properties>
 
 

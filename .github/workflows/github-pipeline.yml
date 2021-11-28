@@ -60,20 +60,40 @@ jobs:
      
       - name: 'Deployment to Production Environment on Alibaba Cloud'
         # You may pin to the exact commit or the version.
-        uses: marcodallasanta/ssh-scp-deploy@v1.1.0
-        with:
+        #uses: marcodallasanta/ssh-scp-deploy@v1.1.0
+        #with:
           # Local file path
-          # local: './'
+          # local: './*'
           # Remote file path
-          remote: '~/yyzone/'
+          #remote: '~/yyzone/'
           # Remote server address
-          host: ${{ secrets.ALIYUN_HOST }}
+          #host: ${{ secrets.ALIYUN_HOST }}
           # Remote server user
-          user: ${{ secrets.ALIYUN_USER }}
+          #user: ${{ secrets.ALIYUN_USER }}
           # Remote server private key
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          #key: ${{ secrets.SSH_PRIVATE_KEY }}
           # Command to run via ssh after scp upload
           # post_upload: echo "This will be executed after the upload!"
           # - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_PASSWORD }} "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
-          ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts 
-          scp_options: -v
+          #ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts 
+          #scp_options: -v
+          
+      #- name: SFTP Deploy
+      # You may pin to the exact commit or the version.
+      # uses: wlixcc/SFTP-Deploy-Action@28d6168ebf0707d5c118b3bbdfb831b56046127c
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.1
+        with:
+          # username
+          username: ${{ secrets.ALIYUN_USER }}
+          # your sftp server
+          server:  ${{ secrets.ALIYUN_HOST }}
+          # your sftp server port, default to 22
+          port: 22 # default is 22
+          # you can copy private_key from your *.pem file, keep format
+          ssh_private_key:  ${{ secrets.SSH_PRIVATE_KEY }}
+          # will put all file under this path
+          local_path:  './*' # default is ./*
+          # files will copy to under remote_path
+          remote_path: '~/yyzone/'  # default is /
+          # sftp args
+          args: # optional

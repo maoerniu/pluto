@@ -82,5 +82,5 @@ jobs:
           # Command to run via ssh after scp upload
           # post_upload: echo "This will be executed after the upload!"
           # - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_PASSWORD }} "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
-          #ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts 
+          ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts 
           scp_options: -v

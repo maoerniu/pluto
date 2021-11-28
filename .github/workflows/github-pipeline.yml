@@ -24,19 +24,6 @@ jobs:
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_KEY }}
-          name: id_rsa # optional
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-          config: ${{ secrets.CONFIG }} # ssh_config; optional
-          if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
-      - name: 输出SSH Key
-        run: echo 'SSH Key是：${{ secrets.SSH_KEY }} || ${{ secrets.KNOWN_HOSTS }}'
-      #- name: rsync over ssh
-      #  run: rsync ./foo/ user@remote:bar/
-    
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
@@ -69,8 +56,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=craigyoung2016_pluto
-     
+        run: mvn clean install -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=craigyoung2016_pluto
+
       - name: 'Deployment to Production Environment on Alibaba Cloud'
         # You may pin to the exact commit or the version.
         #uses: marcodallasanta/ssh-scp-deploy@v1.1.0

@@ -65,7 +65,6 @@ jobs:
           path: 
             './*'
 
-      - uses: actions/checkout@v1
       - name: Setup SSH Keys and known_hosts
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock

@@ -65,6 +65,19 @@ jobs:
           path: 
             './*'
 
+      - uses: actions/checkout@v1
+      - name: Setup SSH Keys and known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+
+      - name: Some task that fetches dependencies
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          run: ./fetch-deps.sh
+                
       - name: 'Deployment to Production Environment on Alibaba Cloud'
         # You may pin to the exact commit or the version.
         uses: marcodallasanta/ssh-scp-deploy@v1.1.0

@@ -32,7 +32,7 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
           config: ${{ secrets.CONFIG }} # ssh_config; optional
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
-          run: echo ${{ secrets.SSH_KEY }} ${{ secrets.KNOWN_HOSTS }}
+          run: echo 'SSH Key是：${{ secrets.SSH_KEY }} || ${{ secrets.KNOWN_HOSTS }}'
       #- name: rsync over ssh
       #  run: rsync ./foo/ user@remote:bar/
     

@@ -81,8 +81,8 @@ jobs:
           # Remote server private key
           key: ${{ secrets.ALIYUN_SERVER_ACCESS_TOKEN }}
           # Command to run via ssh after scp upload
-          post_upload: echo "This will be executed after the upload!"
-           - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_HOST }} "cd /root && touch abc.txt"
+          post_upload: cd /root && touch abc.txt
+          # - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_HOST }} "cd /root && touch abc.txt"
           # ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts
           scp_options: -v
           

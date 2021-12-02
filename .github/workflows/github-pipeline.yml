@@ -71,7 +71,7 @@ jobs:
         uses: marcodallasanta/ssh-scp-deploy@v1.1.0
         with:
           # Local file path
-          local: './*'
+          local: './target/*.jar'
           # Remote file path
           remote: '~/yyzone/'
           # Remote server address
@@ -82,7 +82,7 @@ jobs:
           key: ${{ secrets.ALIYUN_SERVER_ACCESS_TOKEN }}
           # Command to run via ssh after scp upload
           post_upload: echo "This will be executed after the upload!"
-           - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_HOST }} "cd /root && cp /root/yyzone/target/bmicalculator-0.0.1-SNAPSHOT.jar /root/"
+           - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_HOST }} "cd /root && touch abc.txt"
           # ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts
           scp_options: -v
           

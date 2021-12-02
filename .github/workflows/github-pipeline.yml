@@ -78,7 +78,7 @@ jobs:
           # Remote server user
           user: ${{ secrets.ALIYUN_USER }}
           # Remote server private key
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.ALIYUN_SERVER_ACCESS_TOKEN }}
           # Command to run via ssh after scp upload
           post_upload: echo "This will be executed after the upload!"
           # - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_PASSWORD }} "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"

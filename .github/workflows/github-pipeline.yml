@@ -82,7 +82,7 @@ jobs:
           key: ${{ secrets.ALIYUN_SERVER_ACCESS_TOKEN }}
           # Command to run via ssh after scp upload
           post_upload: echo "This will be executed after the upload!"
-           - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_HOST }} "cd /home/dxy/yyzone/deploy && ./deploy.sh ../bmicalculator-0.0.1-SNAPSHOT.jar"
+           - ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_HOST }} "cd /root && cp /root/yyzone/target/bmicalculator-0.0.1-SNAPSHOT.jar /root/"
           # ssh_options: -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts
           scp_options: -v
           
